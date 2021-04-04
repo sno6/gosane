@@ -13,7 +13,10 @@ type TokenRefreshHandler struct {
 	validator   *validator.Validator
 }
 
-func NewTokenRefreshHandler(authService *auth.Service, validator *validator.Validator) *TokenRefreshHandler {
+func NewTokenRefreshHandler(
+	authService *auth.Service,
+	validator *validator.Validator,
+) *TokenRefreshHandler {
 	return &TokenRefreshHandler{
 		authService: authService,
 		validator:   validator,
