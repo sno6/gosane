@@ -1,0 +1,16 @@
+version: '3.6'
+services:
+  postgres:
+    container_name: database
+    image: postgres:latest
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+        - POSTGRES_USER
+        - POSTGRES_PASSWORD
+        - POSTGRES_HOST
+        - POSTGRES_PORT
+        - POSTGRES_DB
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql/data
