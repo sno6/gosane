@@ -11,19 +11,32 @@
 
 Gosane is a cloneable API template to get you up and running quickly. It has made a lot of decisions for you, but easily allows you to swap out the things you don't like.
 
-## Structure
+## Features
 
-Gosane is structured as follows:
+| Service | Description |
+| --- | --- |
+| Auth 🔑 | Social (FB / Google) as well as email based JWT authentication. |
+| Database 💽 | Database support using the amazing https://github.com/ent/ent |
+| Email ✉️ | Currently only AWS SES implementation. |
+| Config 🗃 | Simple JSON and environment based configuration. |
+| Monitoring 🕵️ | Prometheus handlers for monitoring. |
+| Errors 🔦 | Automatic sentry error logging via: https://sentry.io |
+| Validation 👮‍♀️ | Validation using https://github.com/go-playground/validator |
+| Build / Test 💪 | Automatically build and test your code with built in Github pipelines. |
+
+## Structure
 
 > Browse the codebase in VS Code here: https://github1s.com/sno6/gosane
 
+Gosane is structured as follows:
+
 ### Handlers
 
-Each handler (or endpoint) is grouped and encapsulated in its own folder as can be seen [here](/api/handler/user). Firstly, you must define the relative path for the handler group in a file such as [this](/api/handler/user/user.go), and then define each endpoint as a separate handler.
+Each handler (or endpoint) is grouped and encapsulated in its own folder as can be seen [here](/api/handler). Firstly, you must define the relative path for the handler group in a file such as [this](/api/handler/user/user.go), and then define each endpoint as a separate handler.
 
 ### Services & Stores
 
-A handler interacts with your business logic through services, which are aptly defined in `/service`. These services interact with your database entities (through ent) via stores. The flow of information should look something like the following:
+A handler interacts with your business logic through services, which are aptly defined in [`/service`](/service). These services interact with your database entities (using ent) via stores. The flow of information should look something like the following:
 
 Handler <-> Services <-> Stores
 
