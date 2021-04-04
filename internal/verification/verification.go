@@ -24,11 +24,11 @@ type VerificationEmailData struct {
 
 type Verification struct {
 	cfg     config.AppConfig
-	emailer *email.Email
+	emailer email.Emailer
 	jwt     *jwt.Auth
 }
 
-func New(cfg config.AppConfig, emailer *email.Email, jwt *jwt.Auth) *Verification {
+func New(cfg config.AppConfig, emailer email.Emailer, jwt *jwt.Auth) *Verification {
 	return &Verification{
 		cfg:     cfg,
 		emailer: emailer,

@@ -1,10 +1,10 @@
 {
-    "gin_mode": "production",
+    "gin_mode": "release",
     "http_port": 80,
     "log_mode": true,
     "oauth_success_redirect": "http://app.myprodenvironment/oauth",
-    "facebook_oauth_app_id": "12345",
+    "facebook_oauth_app_id": "<REPLACE-ME-WITH-OAUTH-APP-ID>",
     "facebook_oauth_callback_url": "http://api.myprodenvironment/oauth/facebook/callback",
-    "google_oauth_app_id": "12345",
+    "google_oauth_app_id": "<REPLACE-ME-WITH-OAUTH-APP-ID>",
     "google_oauth_callback_url": "http://api.myprodenvironment/oauth/google/callback"
 }

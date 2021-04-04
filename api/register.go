@@ -8,8 +8,6 @@ import (
 	"github.com/sno6/gosane/api/handler/health"
 	"github.com/sno6/gosane/api/handler/oauth"
 	"github.com/sno6/gosane/config"
-	"github.com/sno6/gosane/internal/email"
-	"github.com/sno6/gosane/internal/sentry"
 	"github.com/sno6/gosane/internal/validator"
 	"golang.org/x/oauth2"
 
@@ -25,8 +23,6 @@ type Dependencies struct {
 	AppConfig    config.AppConfig
 	Engine       *gin.Engine
 	Logger       *log.Logger
-	Emailer      *email.Email
-	Sentry       *sentry.Sentry
 	Validator    *validator.Validator
 	UserService  *userService.Service
 	AuthService  *authService.Service

@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/sno6/gosane/internal/email/ses"
 	"github.com/sno6/gosane/internal/prometheus"
 	"github.com/sno6/gosane/internal/verification"
 
@@ -12,7 +13,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sno6/gosane/api"
 	"github.com/sno6/gosane/internal/database"
-	"github.com/sno6/gosane/internal/email"
 	"github.com/sno6/gosane/internal/jwt"
 	"github.com/sno6/gosane/internal/sentry"
 	"github.com/sno6/gosane/internal/validator"
@@ -36,7 +36,19 @@ type Server struct {
 	Config   appCfg.AppConfig
 }
 
-func New(db *database.Database, cfg appCfg.AppConfig, env string) (*Server, error) {
+func New(cfg appCfg.AppConfig, env string) (*Server, error) {
+	db, err := database.New(&database.Config{
+		Name:    cfg.PostgresDB,
+		Host:    cfg.PostgresHost,
+		Port:    cfg.PostgresPort,
+		User:    cfg.PostgresUser,
+		Pass:    cfg.PostgresPassword,
+		LogMode: cfg.LogMode,
+	})
+	if err != nil {
+		return nil, errors.Wrap(err, "error setting up database")
+	}
+
 	engine, err := initEngine(db, cfg, env)
 	if err != nil {
 		return nil, err
@@ -54,6 +66,7 @@ func (s *Server) Run(addr string) error {
 }
 
 func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.Engine, error) {
+	// Note: Remove the following 8 lines if you don't want Sentry error logging.
 	sentryClient, err := sentry.New(cfg.SentryDSN)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to initialise sentry")
@@ -64,7 +77,7 @@ func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.E
 	}()
 
 	// Internal services.
-	email, err := email.New()
+	emailer, err := ses.New()
 	if err != nil {
 		return nil, errors.Wrap(err, "initEngine: error initialising server")
 	}
@@ -76,7 +89,7 @@ func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.E
 
 	logger := log.New(os.Stdout, "[Gosane] ", log.LstdFlags)
 	jwtAuth := jwt.New([]byte(cfg.JWTSecret))
-	verification := verification.New(cfg, email, jwtAuth)
+	verification := verification.New(cfg, emailer, jwtAuth)
 	validator := validator.New()
 
 	// Application Stores.
@@ -114,8 +127,6 @@ func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.E
 	api.Register(&api.Dependencies{
 		Engine:       engine,
 		Logger:       logger,
-		Emailer:      email,
-		Sentry:       sentryClient,
 		AppConfig:    cfg,
 		Validator:    validator,
 		AuthService:  authService,

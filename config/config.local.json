@@ -3,8 +3,8 @@
     "http_port": 8080,
     "log_mode": true,
     "oauth_success_redirect": "http://localhost:3000/oauth",
-    "facebook_oauth_app_id": "12345",
+    "facebook_oauth_app_id": "<REPLACE-ME-WITH-OAUTH-APP-ID>",
     "facebook_oauth_callback_url": "http://localhost:8080/oauth/facebook/callback",
-    "google_oauth_app_id": "12345",
+    "google_oauth_app_id": "<REPLACE-ME-WITH-OAUTH-APP-ID>",
     "google_oauth_callback_url": "http://localhost:8080/oauth/google/callback"
 }

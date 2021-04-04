@@ -9,7 +9,6 @@ import (
 	"github.com/sno6/gosane/internal/config"
 
 	"github.com/joho/godotenv"
-	"github.com/sno6/gosane/internal/database"
 	"github.com/sno6/gosane/internal/server"
 	"github.com/spf13/cobra"
 )
@@ -42,19 +41,7 @@ func Run() error {
 				log.Fatalf("Unable to load config: %v\n", err)
 			}
 
-			db, err := database.New(&database.Config{
-				Name:    cfg.PostgresDB,
-				Host:    cfg.PostgresHost,
-				Port:    cfg.PostgresPort,
-				User:    cfg.PostgresUser,
-				Pass:    cfg.PostgresPassword,
-				LogMode: cfg.LogMode,
-			})
-			if err != nil {
-				log.Fatalf("Error setting up database: %v\n", err)
-			}
-
-			srv, err := server.New(db, cfg, env)
+			srv, err := server.New(cfg, env)
 			if err != nil {
 				log.Fatalf("Error setting up server: %v\n", err)
 			}
