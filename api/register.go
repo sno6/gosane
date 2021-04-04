@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sno6/gosane/api/handler"
+	"github.com/sno6/gosane/api/handler/auth"
 	"github.com/sno6/gosane/api/handler/health"
-	"github.com/sno6/gosane/api/handler/oauth"
 	"github.com/sno6/gosane/config"
 	"github.com/sno6/gosane/internal/validator"
 	"golang.org/x/oauth2"
@@ -33,6 +33,7 @@ type Dependencies struct {
 // Register all handlers with their dependencies.
 func Register(deps *Dependencies) {
 	handlerGroups := []handler.HandlerGroup{
+		// Gosane built in handlers.
 		prometheusHandler.New(),
 		health.New(),
 		userHandler.New(
@@ -41,7 +42,7 @@ func Register(deps *Dependencies) {
 			deps.AuthService,
 			deps.UserService,
 		),
-		oauth.New(
+		auth.New(
 			deps.UserService,
 			deps.AuthService,
 			deps.Validator,
@@ -49,6 +50,8 @@ func Register(deps *Dependencies) {
 			deps.FBConfig,
 			deps.GoogleConfig,
 		),
+		// Your handlers go here.
+		// ...
 	}
 
 	for _, hg := range handlerGroups {

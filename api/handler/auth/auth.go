@@ -1,4 +1,4 @@
-package oauth
+package auth
 
 import (
 	"github.com/sno6/gosane/api/handler"
@@ -9,7 +9,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-type OAuthHandler struct {
+type AuthHandler struct {
 	userService  *user.Service
 	authService  *auth.Service
 	validator    *validator.Validator
@@ -25,8 +25,8 @@ func New(
 	appConfig config.AppConfig,
 	fbConfig *oauth2.Config,
 	googleConfig *oauth2.Config,
-) *OAuthHandler {
-	return &OAuthHandler{
+) *AuthHandler {
+	return &AuthHandler{
 		userService:  userService,
 		authService:  authService,
 		validator:    validator,
@@ -36,11 +36,11 @@ func New(
 	}
 }
 
-func (*OAuthHandler) RelativePath() string {
-	return "/oauth"
+func (*AuthHandler) RelativePath() string {
+	return "/auth"
 }
 
-func (oh *OAuthHandler) Handlers() []handler.Handler {
+func (oh *AuthHandler) Handlers() []handler.Handler {
 	return []handler.Handler{
 		NewFacebookLoginHandler(oh.fbConfig),
 		NewFacebookCallbackHandler(oh.userService, oh.authService, oh.appConfig, oh.fbConfig),

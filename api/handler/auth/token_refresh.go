@@ -1,8 +1,8 @@
-package oauth
+package auth
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sno6/gosane/api/handler/oauth/dto/request"
+	"github.com/sno6/gosane/api/handler/auth/dto/request"
 	"github.com/sno6/gosane/internal/http"
 	"github.com/sno6/gosane/internal/validator"
 	"github.com/sno6/gosane/service/auth"

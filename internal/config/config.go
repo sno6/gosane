@@ -18,25 +18,25 @@ type Config struct {
 	Environment Environment
 }
 
-func NewFromFile(cfg *Config, obj interface{}) error {
+func NewFromFile(cfg *Config, s interface{}) error {
 	file, err := getFile(cfg)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 
-	err = readJSONIntoObject(file, obj)
+	err = readJSONIntoStruct(file, s)
 	if err != nil {
 		return err
 	}
 
-	_, err = env.UnmarshalFromEnviron(obj)
+	_, err = env.UnmarshalFromEnviron(s)
 	if err != nil {
 		return err
 	}
 
 	validator := validator.New()
-	err = validator.Struct(obj)
+	err = validator.Struct(s)
 	if err != nil {
 		return err
 	}
@@ -67,6 +67,6 @@ func getFile(cfg *Config) (io.ReadCloser, error) {
 	return os.Open(cfgPath)
 }
 
-func readJSONIntoObject(file io.Reader, obj interface{}) error {
-	return json.NewDecoder(file).Decode(obj)
+func readJSONIntoStruct(file io.Reader, s interface{}) error {
+	return json.NewDecoder(file).Decode(s)
 }
