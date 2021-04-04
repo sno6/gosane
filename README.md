@@ -5,15 +5,15 @@
   </a>
 </p>
 
-> A sane and simple Go REST API framework. Clone me and edit me to fit your usecase.
+> A sane and simple Go REST API template. Clone me and edit me to fit your usecase.
 
 ## What is Gosane?
 
-Gosane is a cloneable API framework to get you up and running in production. It has made a lot of decisions for you, but easily allows you to swap out the things you don't like.
+Gosane is a cloneable API template to get you up and running quickly. It has made a lot of decisions for you, but easily allows you to swap out the things you don't like.
 
 ## How to use Gosane
 
-### 1.Clone the project
+### 1. Clone the project
 
 ```sh
 git clone git@github.com:sno6/gosane.git
@@ -25,11 +25,4 @@ git clone git@github.com:sno6/gosane.git
 ./run.sh
 ```
 
-> Note if the above command errors you need to give the script executive permissions by running: `chmod +x ./run.sh`
-
-## Author
-
-👤 **sno6**
-
-* Website: https://www.farley.ai
-* Github: [@sno6](https://github.com/sno6)
+> Note that if the above command errors you may need to give the script executive permissions by running: `chmod +x ./run.sh`
