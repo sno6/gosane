@@ -1,0 +1,20 @@
+name: Build & Test
+on: [push]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '1.14.0'
+    
+    - name: Generate entities
+      run: go run github.com/facebook/ent/cmd/ent generate ./ent/schema
+
+    - name: Build
+      run: go build
+
+    - name: Test
+      run: go test ./service/* ./internal/*

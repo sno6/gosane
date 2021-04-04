@@ -1,0 +1,6 @@
+.env
+.idea
+
+ent/*
+!ent/schema/
+!ent/generate.go
