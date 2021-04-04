@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/sno6/gosane/internal/prometheus"
+	"github.com/sno6/gosane/internal/verification"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
@@ -75,7 +76,7 @@ func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.E
 
 	logger := log.New(os.Stdout, "[Gosane] ", log.LstdFlags)
 	jwtAuth := jwt.New([]byte(cfg.JWTSecret))
-	// verification := verification.New(cfg, email, jwtAuth)
+	verification := verification.New(cfg, email, jwtAuth)
 	validator := validator.New()
 
 	// Application Stores.
@@ -84,7 +85,7 @@ func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.E
 
 	// Application services.
 	userService := userService.NewUserService(userStore)
-	authService := authService.NewAuthService(jwtAuth, tokenStore, userService)
+	authService := authService.NewAuthService(jwtAuth, tokenStore, userService, verification)
 
 	fbCfg := &oauth2.Config{
 		ClientID:     cfg.FacebookOAuthAppID,

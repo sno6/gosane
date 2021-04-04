@@ -7,17 +7,24 @@ import (
 	"github.com/google/uuid"
 	"github.com/sno6/gosane/ent"
 	"github.com/sno6/gosane/internal/jwt"
+	"github.com/sno6/gosane/internal/verification"
 	"github.com/sno6/gosane/service/user"
 	"github.com/sno6/gosane/store/token"
 )
 
 type Service struct {
-	jwt         *jwt.Auth
-	userService *user.Service
-	tokenStore  *token.Store
+	jwt          *jwt.Auth
+	userService  *user.Service
+	tokenStore   *token.Store
+	verification *verification.Verification
 }
 
-func NewAuthService(jwt *jwt.Auth, tokenStore *token.Store, userService *user.Service) *Service {
+func NewAuthService(
+	jwt *jwt.Auth,
+	tokenStore *token.Store,
+	userService *user.Service,
+	verification *verification.Verification,
+) *Service {
 	return &Service{
 		jwt:         jwt,
 		tokenStore:  tokenStore,

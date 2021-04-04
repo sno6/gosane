@@ -41,7 +41,7 @@ A handler interacts with your business logic through services, which are aptly d
 
 Handler <-> Services <-> Stores
 
-A store should never be used directly in a handler.
+A store should never be used directly in a handler, and a service should never be used in a store.
 
 ### Internal
 

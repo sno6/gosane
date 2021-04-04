@@ -41,6 +41,7 @@ func New() *Validator {
 		return name
 	})
 
+	// Custom validation tags.
 	validator.RegisterValidation("isEnum", ValidateEnum, true)
 	validator.RegisterValidation("isTimeString", ValidateTimeString, true)
 
