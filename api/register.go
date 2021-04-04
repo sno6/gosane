@@ -20,7 +20,7 @@ import (
 	userService "github.com/sno6/gosane/service/user"
 )
 
-// Dependencies hold everything needed by handlers to function.
+// Dependencies are everything needed by handlers to function.
 type Dependencies struct {
 	AppConfig    config.AppConfig
 	Engine       *gin.Engine
@@ -34,13 +34,25 @@ type Dependencies struct {
 	GoogleConfig *oauth2.Config
 }
 
-// Register all handlers with their needed dependencies.
+// Register all handlers with their dependencies.
 func Register(deps *Dependencies) {
 	handlerGroups := []handler.HandlerGroup{
-		userHandler.New(deps.Validator, deps.Logger, deps.AuthService, deps.UserService),
-		oauth.New(deps.UserService, deps.AuthService, deps.Validator, deps.AppConfig, deps.FBConfig, deps.GoogleConfig),
 		prometheusHandler.New(),
 		health.New(),
+		userHandler.New(
+			deps.Validator,
+			deps.Logger,
+			deps.AuthService,
+			deps.UserService,
+		),
+		oauth.New(
+			deps.UserService,
+			deps.AuthService,
+			deps.Validator,
+			deps.AppConfig,
+			deps.FBConfig,
+			deps.GoogleConfig,
+		),
 	}
 
 	for _, hg := range handlerGroups {

@@ -5,8 +5,9 @@ package config
 // env:"MY_ENV"   tags for environment variables.
 // json:"MY_JSON" tags for JSON file variables.
 //
-// validation is done using Govalidator.
+// Validation tags can be added, more info here: https://github.com/go-playground/validator
 type AppConfig struct {
+	SentryDSN                string `env:"SENTRY_DSN" validate:"required"`
 	Port                     int    `json:"http_port" validate:"required"`
 	LogMode                  bool   `json:"log_mode"`
 	OAuthSuccessRedirect     string `json:"oauth_success_redirect" validate:"required"`

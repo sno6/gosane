@@ -2,6 +2,7 @@ package schema
 
 import (
 	"github.com/facebook/ent"
+	"github.com/facebook/ent/schema/edge"
 	"github.com/facebook/ent/schema/field"
 	"github.com/google/uuid"
 )
@@ -47,5 +48,7 @@ func (u User) Fields() []ent.Field {
 }
 
 func (User) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("token", Token.Type),
+	}
 }

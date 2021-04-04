@@ -6,7 +6,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/sno6/gosane/ent"
-	"github.com/sno6/gosane/ent/schema"
 	"github.com/sno6/gosane/internal/jwt"
 	"github.com/sno6/gosane/service/user"
 	"github.com/sno6/gosane/store/token"
@@ -32,13 +31,6 @@ func (s *Service) UserExists(ctx context.Context, email string) (bool, error) {
 }
 
 func (s *Service) Register(ctx context.Context, u *ent.User) (*ent.User, error) {
-	if u.NotificationSettings.Email == "" && u.Email != "" {
-		u.NotificationSettings = schema.NotificationSettings{
-			Email:         u.Email,
-			EmailVerified: &u.EmailVerified,
-		}
-	}
-
 	return s.userService.Create(ctx, u)
 }
 

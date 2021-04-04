@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/sno6/gosane/ent/schema"
 )
 
 var errEmptyRequestBody = errors.New("empty request body")
@@ -19,6 +18,10 @@ var errEmptyRequestBody = errors.New("empty request body")
 // Because Validator was taken.. sue me.
 type Validateable interface {
 	Validate() error
+}
+
+type Enumer interface {
+	Values() []string
 }
 
 type Validator struct {
@@ -126,7 +129,7 @@ func isValidTimeString(s string) bool {
 }
 
 func isValidEnumValue(v reflect.Value) bool {
-	enumer, isEnumer := v.Interface().(schema.Enumer)
+	enumer, isEnumer := v.Interface().(Enumer)
 	if !isEnumer {
 		return false
 	}

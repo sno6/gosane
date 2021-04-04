@@ -16,7 +16,10 @@ type UpdateHandler struct {
 	userService *user.Service
 }
 
-func NewUpdateHandler(validator *validator.Validator, userService *user.Service) *UpdateHandler {
+func NewUpdateHandler(
+	validator *validator.Validator,
+	userService *user.Service,
+) *UpdateHandler {
 	return &UpdateHandler{
 		validator:   validator,
 		userService: userService,

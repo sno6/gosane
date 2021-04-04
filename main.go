@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	cmd "github.com/sno6/gosane/cmd/backend-api"
+	cmd "github.com/sno6/gosane/cmd/gosane"
 )
 
 func main() {
