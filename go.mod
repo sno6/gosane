@@ -3,7 +3,7 @@ module github.com/sno6/gosane
 go 1.14
 
 require (
-	github.com/Netflix/go-env v0.0.0-20200803161858-92715955ff70
+	github.com/Netflix/go-env v0.0.0-20210215222557-e437a7e7f9fb
 	github.com/aws/aws-lambda-go v1.22.0 // indirect
 	github.com/aws/aws-sdk-go v1.36.26
 	github.com/bxcodec/faker v2.0.1+incompatible // indirect
@@ -17,7 +17,7 @@ require (
 	github.com/getsentry/sentry-go v0.7.0
 	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-gonic/gin v1.6.3
-	github.com/go-playground/validator/v10 v10.3.0
+	github.com/go-playground/validator/v10 v10.4.1
 	github.com/gofrs/uuid v3.3.0+incompatible
 	github.com/google/uuid v1.1.2
 	github.com/icrowley/fake v0.0.0-20180203215853-4178557ae428 // indirect
@@ -27,6 +27,7 @@ require (
 	github.com/markbates/inflect v1.0.4 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.9.0
+	github.com/sno6/config v0.0.0-20210405222138-2df795effe87
 	github.com/spf13/cobra v1.1.1
 	github.com/stripe/stripe-go/v72 v72.9.0
 	github.com/wawandco/fako v0.0.0-20180828010250-c36a0bc97398 // indirect

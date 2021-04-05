@@ -48,5 +48,6 @@ func (oh *AuthHandler) Handlers() []handler.Handler {
 		NewGoogleCallbackHandler(oh.userService, oh.authService, oh.appConfig, oh.googleConfig),
 		NewTokenRefreshHandler(oh.authService, oh.validator),
 		NewRegisterHandler(oh.userService, oh.authService, oh.validator),
+		NewLoginHandler(oh.authService, oh.validator),
 	}
 }

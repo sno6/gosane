@@ -10,6 +10,7 @@ import (
 	"github.com/sno6/gosane/internal/verification"
 	"github.com/sno6/gosane/service/user"
 	"github.com/sno6/gosane/store/token"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Service struct {
@@ -31,6 +32,24 @@ func NewAuthService(
 		userService:  userService,
 		verification: verification,
 	}
+}
+
+func (s *Service) Login(ctx context.Context, email, password string) (*jwt.TokenInfo, error) {
+	u, err := s.userService.FindByEmail(ctx, email)
+	if err != nil {
+		return nil, err
+	}
+
+	if u.ProviderType != "" || u.ProviderID != "" || u.Password == "" {
+		return nil, errors.New("unable to login with email/password using a social account")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	if err != nil {
+		return nil, err
+	}
+
+	return s.CreateTokens(ctx, u)
 }
 
 func (s *Service) UserExists(ctx context.Context, email string) (bool, error) {

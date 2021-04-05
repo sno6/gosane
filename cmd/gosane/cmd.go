@@ -5,8 +5,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/sno6/config"
 	appConfig "github.com/sno6/gosane/config"
-	"github.com/sno6/gosane/internal/config"
 
 	"github.com/joho/godotenv"
 	"github.com/sno6/gosane/internal/server"

@@ -1,8 +1,6 @@
 package middleware
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/sno6/gosane/internal/http"
 	"github.com/sno6/gosane/internal/sentry"
