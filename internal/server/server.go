@@ -121,7 +121,7 @@ func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.E
 	engine.Use(gin.Logger())
 	engine.Use(middleware.Cors())
 	engine.Use(middleware.RequestMetrics(prometheus))
-	engine.Use(middleware.Recovery(sentryClient))
+	engine.Use(middleware.Recovery(sentryClient, logger))
 	engine.Use(middleware.Errors(sentryClient))
 
 	api.Register(&api.Dependencies{

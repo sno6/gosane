@@ -41,7 +41,7 @@ func (u User) Fields() []ent.Field {
 		field.Bool("email_verified").Default(false),
 		field.String("password").Optional(),
 		field.String("provider_id").Optional(),
-		field.Enum("provider_type").GoType(OAuthProvider("")).Optional(),
+		field.Enum("provider_type").Values(OAuthProvider("").Values()...).Optional().Nillable(),
 		field.String("first_name").Optional(),
 		field.String("last_name").Optional(),
 	}

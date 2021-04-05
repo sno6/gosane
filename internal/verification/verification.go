@@ -28,7 +28,11 @@ type Verification struct {
 	jwt     *jwt.Auth
 }
 
-func New(cfg config.AppConfig, emailer email.Emailer, jwt *jwt.Auth) *Verification {
+func New(
+	cfg config.AppConfig,
+	emailer email.Emailer,
+	jwt *jwt.Auth,
+) *Verification {
 	return &Verification{
 		cfg:     cfg,
 		emailer: emailer,
@@ -37,16 +41,23 @@ func New(cfg config.AppConfig, emailer email.Emailer, jwt *jwt.Auth) *Verificati
 }
 
 func (v *Verification) SendVerificationEmail(toEmail string) error {
-	token, err := v.jwt.NewAccessToken(toEmail, verificationEmailExpire)
+	tokens, err := v.jwt.NewTokens(toEmail)
 	if err != nil {
 		return err
 	}
 
-	return v.emailer.SendEmail(toEmail, verificationTemplate, VerificationEmailData{
-		// Note: In most cases, this will need to point to your frontend..
-		// to do that just add a dashboard url parameter to your JSON config and
-		// pass it through to this service when initialising in server.go.
-		VerificationURL: fmt.Sprintf("/email/verify?token=%s", token),
+	// Note: In most cases, this will need to point to your frontend..
+	// to do that just add a dashboard url parameter to your JSON config and
+	// pass it through to this service when initialising in server.go.
+	content := fmt.Sprintf(
+		"http://yourfrontend.com/email/verify?token=%s&refresh=%s",
+		tokens.Access,
+		tokens.Refresh,
+	)
+
+	return v.emailer.SendRawEmail(toEmail, &email.RawEmailData{
+		Subject: "Please verify your account",
+		Content: content,
 	})
 }
 

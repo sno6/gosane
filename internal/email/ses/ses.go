@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ses"
+	"github.com/sno6/gosane/internal/email"
 	"gopkg.in/gomail.v2"
 )
 
@@ -32,8 +33,8 @@ func New() (*SES, error) {
 	}, nil
 }
 
-func (s *SES) SendEmail(toEmail string, template string, content interface{}) error {
-	templateData, err := json.Marshal(content)
+func (s *SES) SendTemplateEmail(toEmail string, template string, data *email.EmailData) error {
+	templateData, err := json.Marshal(data.Content)
 	if err != nil {
 		return err
 	}
@@ -51,12 +52,12 @@ func (s *SES) SendEmail(toEmail string, template string, content interface{}) er
 	return err
 }
 
-func (s *SES) SendRawEmail(toEmail string, subject, content string) error {
+func (s *SES) SendRawEmail(toEmail string, data *email.RawEmailData) error {
 	msg := gomail.NewMessage()
-	msg.SetHeader("From", "sender@mysite.com")
+	msg.SetHeader("From", sender)
 	msg.SetHeader("To", toEmail)
-	msg.SetHeader("Subject", subject)
-	msg.SetBody("text/html", content)
+	msg.SetHeader("Subject", data.Subject)
+	msg.SetBody("text/html", data.Content)
 
 	var raw bytes.Buffer
 	msg.WriteTo(&raw)

@@ -4,9 +4,12 @@ import (
 	"context"
 	"time"
 
+	"github.com/sno6/gosane/internal/types"
+
 	"github.com/google/uuid"
 	"github.com/sno6/gosane/ent"
 	"github.com/sno6/gosane/ent/user"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Store struct {
@@ -40,11 +43,27 @@ func (s *Store) FindByUUID(ctx context.Context, uuid uuid.UUID) (*ent.User, erro
 }
 
 func (s *Store) Create(ctx context.Context, u *ent.User) (*ent.User, error) {
+	providerType := &u.ProviderType
+	if u.ProviderType == "" {
+		providerType = nil
+	}
+
+	var hashedPassword *string
+	if u.Password != "" {
+		pass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+		if err != nil {
+			return nil, err
+		}
+
+		hashedPassword = types.String(string(pass))
+	}
+
 	return s.client.User.
 		Create().
 		SetEmail(u.Email).
 		SetProviderID(u.ProviderID).
-		SetProviderType(u.ProviderType).
+		SetNillableProviderType(providerType).
+		SetNillablePassword(hashedPassword).
 		SetEmailVerified(u.EmailVerified).
 		SetFirstName(u.FirstName).
 		SetLastName(u.LastName).

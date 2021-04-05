@@ -26,9 +26,10 @@ func NewAuthService(
 	verification *verification.Verification,
 ) *Service {
 	return &Service{
-		jwt:         jwt,
-		tokenStore:  tokenStore,
-		userService: userService,
+		jwt:          jwt,
+		tokenStore:   tokenStore,
+		userService:  userService,
+		verification: verification,
 	}
 }
 
@@ -38,7 +39,19 @@ func (s *Service) UserExists(ctx context.Context, email string) (bool, error) {
 }
 
 func (s *Service) Register(ctx context.Context, u *ent.User) (*ent.User, error) {
-	return s.userService.Create(ctx, u)
+	u, err := s.userService.Create(ctx, u)
+	if err != nil {
+		return nil, err
+	}
+
+	if !u.EmailVerified {
+		err = s.verification.SendVerificationEmail(u.Email)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return u, nil
 }
 
 func (s *Service) CreateTokens(ctx context.Context, u *ent.User) (*jwt.TokenInfo, error) {
