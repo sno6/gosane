@@ -34,5 +34,6 @@ func (dh *DeleteHandler) HandleFunc(c *gin.Context) {
 
 	if err := dh.authService.DeleteUserByUuid(c, u.UUID); err != nil {
 		c.Error(http.Internal).SetMeta(err)
+		return
 	}
 }

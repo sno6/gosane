@@ -2,9 +2,11 @@
     "gin_mode": "debug",
     "http_port": 8080,
     "log_mode": true,
-    "oauth_success_redirect": "http://app.mydevenvironment/oauth",
-    "facebook_oauth_app_id": "<REPLACE-ME-WITH-OAUTH-APP-ID>",
-    "facebook_oauth_callback_url": "http://api.mydevenvironment/oauth/facebook/callback",
-    "google_oauth_app_id": "<REPLACE-ME-WITH-OAUTH-APP-ID>",
-    "google_oauth_callback_url": "http://api.mydevenvironment/oauth/google/callback"
+    "oauth_success_redirect": "http://dev.com:3000/auth",
+    "facebook_oauth_app_id": "fb_app_id",
+    "facebook_oauth_app_secret": "env[FACEBOOK_OAUTH_APP_SECRET]",
+    "facebook_oauth_callback_url": "http://api.dev.com/auth/facebook/callback",
+    "google_oauth_app_id": "google_app_id",
+    "google_oauth_app_secret": "env[GOOGLE_OAUTH_APP_SECRET]",
+    "google_oauth_callback_url": "http://api.dev.com/auth/google/callback"
 }

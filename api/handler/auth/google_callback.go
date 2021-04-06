@@ -70,13 +70,14 @@ func (gh *GoogleCallbackHandler) success(c *gin.Context) http.HandlerFunc {
 		u, err := gh.userService.FindByEmail(r.Context(), googleUser.Email)
 		if err != nil {
 			if ent.IsNotFound(err) {
+				provider := schema.GoogleProvider
 				isVerified := googleUser.VerifiedEmail != nil && *googleUser.VerifiedEmail == true
 
 				u, err = gh.authService.Register(r.Context(), &ent.User{
 					Email:         googleUser.Email,
 					EmailVerified: isVerified,
 					ProviderID:    googleUser.Id,
-					ProviderType:  schema.GoogleProvider,
+					ProviderType:  &provider,
 					FirstName:     googleUser.GivenName,
 					LastName:      googleUser.FamilyName,
 				})

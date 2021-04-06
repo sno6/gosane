@@ -46,7 +46,7 @@ func (s *Service) Login(ctx context.Context, email, password string) (*jwt.Token
 		return nil, err
 	}
 
-	if u.ProviderType != "" || u.ProviderID != "" || u.Password == "" {
+	if u.ProviderType != nil || u.ProviderID != "" || u.Password == "" {
 		return nil, errors.New("unable to login with email/password using a social account")
 	}
 

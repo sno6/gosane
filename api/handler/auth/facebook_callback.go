@@ -78,10 +78,11 @@ func (fh *FacebookCallbackHandler) success(c *gin.Context) http.HandlerFunc {
 		u, err := fh.userService.FindByEmail(r.Context(), fbUser.Email)
 		if err != nil {
 			if ent.IsNotFound(err) {
+				provider := schema.FacebookProvider
 				u, err = fh.authService.Register(r.Context(), &ent.User{
 					Email:         fbUser.Email,
 					ProviderID:    fbUser.ID,
-					ProviderType:  schema.FacebookProvider,
+					ProviderType:  &provider,
 					EmailVerified: true,
 					FirstName:     names[0],
 					LastName:      strings.Join(names[1:], " "),

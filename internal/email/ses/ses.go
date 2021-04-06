@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	sender = "sender@mysite.com"
+	sender = "sender@yoursite.com"
 	region = "ap-southeast-2"
 )
 

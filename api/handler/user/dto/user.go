@@ -9,17 +9,17 @@ import (
 )
 
 type User struct {
-	CreatedAt         time.Time            `json:"createdAt"`
-	UpdatedAt         time.Time            `json:"updatedAt"`
-	DeletedAt         *time.Time           `json:"deletedAt"`
-	UUID              uuid.UUID            `json:"uuid"`
-	Email             string               `json:"email"`
-	NotificationEmail string               `json:"notificationEmail"`
-	EmailVerified     bool                 `json:"emailVerified"`
-	ProviderID        string               `json:"providerId"`
-	ProviderType      schema.OAuthProvider `json:"providerType"`
-	FirstName         string               `json:"firstName"`
-	LastName          string               `json:"lastName"`
+	CreatedAt         time.Time             `json:"createdAt"`
+	UpdatedAt         time.Time             `json:"updatedAt"`
+	DeletedAt         *time.Time            `json:"deletedAt"`
+	UUID              uuid.UUID             `json:"uuid"`
+	Email             string                `json:"email"`
+	NotificationEmail string                `json:"notificationEmail"`
+	EmailVerified     bool                  `json:"emailVerified"`
+	ProviderID        string                `json:"providerId"`
+	ProviderType      *schema.OAuthProvider `json:"providerType"`
+	FirstName         string                `json:"firstName"`
+	LastName          string                `json:"lastName"`
 }
 
 func NewFromUser(u *ent.User) *User {

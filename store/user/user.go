@@ -43,26 +43,20 @@ func (s *Store) FindByUUID(ctx context.Context, uuid uuid.UUID) (*ent.User, erro
 }
 
 func (s *Store) Create(ctx context.Context, u *ent.User) (*ent.User, error) {
-	providerType := &u.ProviderType
-	if u.ProviderType == "" {
-		providerType = nil
-	}
-
 	var hashedPassword *string
 	if u.Password != "" {
-		pass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+		hash, err := s.hashPassword(u.Password)
 		if err != nil {
 			return nil, err
 		}
-
-		hashedPassword = types.String(string(pass))
+		hashedPassword = types.String(hash)
 	}
 
 	return s.client.User.
 		Create().
 		SetEmail(u.Email).
 		SetProviderID(u.ProviderID).
-		SetNillableProviderType(providerType).
+		SetNillableProviderType(u.ProviderType).
 		SetNillablePassword(hashedPassword).
 		SetEmailVerified(u.EmailVerified).
 		SetFirstName(u.FirstName).
@@ -95,4 +89,12 @@ func (s *Store) DeleteByUuid(ctx context.Context, uuid uuid.UUID) error {
 		).Save(ctx)
 
 	return err
+}
+
+func (s *Store) hashPassword(password string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hash), nil
 }
