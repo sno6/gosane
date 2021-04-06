@@ -75,6 +75,16 @@ You can download the exported Postman collection [`here`](postman_collection.jso
 
 ## Potential issues
 
+### Gosane is complaining about a Sentry DSN, what's that?
+
+In order for Sentry to know where to log errors to it needs a URL. To get one, follow these steps:
+
+1. Sign up for a free account over at https://sentry.io/welcome
+2. Select Go as the platform.
+3. Copy the Dsn value in the sample code to your `.env` file.
+
+That's it.
+
 ### But what if I don't want social OAuth?
 
 Just simply rip out everything for social OAuth. Here's where everything will be:
