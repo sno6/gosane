@@ -23,7 +23,7 @@ Gosane is a cloneable API template to get you up and running quickly. It has mad
 | Errors 🔦 | Automatic sentry error logging via: https://sentry.io |
 | Validation 👮‍♀️ | Validation using an extended version of the https://github.com/go-playground/validator package. |
 | Build / Test 💪 | Automatically build and test your code with built in Github pipelines. |
-| Server | The underlying server framework is Gin, so you benefit from all the goodness you can find over at: https://github.com/gin-gonic/gin |
+| Server 💻 | The underlying server framework is Gin, so you benefit from all the goodness you can find over at: https://github.com/gin-gonic/gin |
 
 ## Structure
 
