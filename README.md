@@ -18,7 +18,7 @@ Gosane is a cloneable API template to get you up and running quickly. It has mad
 | Auth 🔑 | Social (FB / Google) as well as email based JWT authentication. |
 | Database 💽 | Database support using the amazing https://github.com/ent/ent package. |
 | Email ✉️ | There's an example AWS SES implementation and an easily extendable interface. |
-| Config 🗃 | Simple JSON and environment based configuration. |
+| Config 🗃 | Simple JSON and environment based configuration via https://github.com/sno6/config. |
 | Monitoring 🕵️ | Prometheus handlers for monitoring. |
 | Errors 🔦 | Automatic sentry error logging via: https://sentry.io |
 | Validation 👮‍♀️ | Validation using an extended version of the https://github.com/go-playground/validator package. |

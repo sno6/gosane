@@ -26,7 +26,12 @@ type FacebookCallbackHandler struct {
 	oAuthCfg    *oauth2.Config
 }
 
-func NewFacebookCallbackHandler(userService *user.Service, authService *auth.Service, appConfig config.AppConfig, oAuthCfg *oauth2.Config) *FacebookCallbackHandler {
+func NewFacebookCallbackHandler(
+	userService *user.Service,
+	authService *auth.Service,
+	appConfig config.AppConfig,
+	oAuthCfg *oauth2.Config,
+) *FacebookCallbackHandler {
 	return &FacebookCallbackHandler{
 		userService: userService,
 		authService: authService,
@@ -44,7 +49,15 @@ func (*FacebookCallbackHandler) Method() string {
 }
 
 func (fh *FacebookCallbackHandler) HandleFunc(c *gin.Context) {
-	handler := facebook.StateHandler(gologin.DebugOnlyCookieConfig, facebook.CallbackHandler(fh.oAuthCfg, fh.success(c), fh.failure(c)))
+	handler := facebook.StateHandler(
+		gologin.DebugOnlyCookieConfig,
+		facebook.CallbackHandler(
+			fh.oAuthCfg,
+			fh.success(c),
+			fh.failure(c),
+		),
+	)
+
 	handler.ServeHTTP(c.Writer, c.Request)
 }
 
@@ -89,7 +102,12 @@ func (fh *FacebookCallbackHandler) success(c *gin.Context) http.HandlerFunc {
 			return
 		}
 
-		redirectURL := fmt.Sprintf("%s?token=%s&refresh=%s", fh.appConfig.OAuthSuccessRedirect, tokens.Access, tokens.Refresh)
+		redirectURL := fmt.Sprintf(
+			"%s?token=%s&refresh=%s",
+			fh.appConfig.OAuthSuccessRedirect,
+			tokens.Access, tokens.Refresh,
+		)
+
 		http.Redirect(w, r, redirectURL, 302)
 	})
 }

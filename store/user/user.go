@@ -75,6 +75,7 @@ func (s *Store) UpdateByUUID(ctx context.Context, uuid uuid.UUID, u *ent.User) (
 		Update().
 		SetFirstName(u.FirstName).
 		SetLastName(u.LastName).
+		SetEmailVerified(u.EmailVerified).
 		Where(
 			user.UUIDEQ(uuid),
 			user.DeletedAtIsNil(),

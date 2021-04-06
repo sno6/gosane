@@ -13,6 +13,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+var errLogin = errors.New("username or password is incorrect")
+
 type Service struct {
 	jwt          *jwt.Auth
 	userService  *user.Service
@@ -37,6 +39,10 @@ func NewAuthService(
 func (s *Service) Login(ctx context.Context, email, password string) (*jwt.TokenInfo, error) {
 	u, err := s.userService.FindByEmail(ctx, email)
 	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, errors.New("username or password is incorrect")
+		}
+
 		return nil, err
 	}
 
@@ -46,7 +52,15 @@ func (s *Service) Login(ctx context.Context, email, password string) (*jwt.Token
 
 	err = bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 	if err != nil {
+		if err == bcrypt.ErrMismatchedHashAndPassword {
+			return nil, errLogin
+		}
+
 		return nil, err
+	}
+
+	if !u.EmailVerified {
+		return nil, errors.New("email is unverified")
 	}
 
 	return s.CreateTokens(ctx, u)
@@ -146,4 +160,25 @@ func (s *Service) DeleteUserByUuid(ctx context.Context, userUuid uuid.UUID) erro
 	}
 
 	return nil
+}
+
+func (s *Service) VerifyEmail(ctx context.Context, token string) error {
+	claims, err := s.jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
+
+	// If the claims are legitimate verify the email for this user.
+	email := claims.Identifier
+	u, err := s.userService.FindByEmail(ctx, email)
+	if err != nil {
+		return err
+	}
+
+	if u.EmailVerified {
+		return errors.New("email already verified")
+	}
+
+	_, err = s.userService.UpdateByUUID(ctx, u.UUID, &ent.User{EmailVerified: true})
+	return err
 }

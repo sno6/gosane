@@ -1,9 +1,6 @@
 package auth
 
 import (
-	"math/rand"
-	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/sno6/gosane/api/handler/auth/dto/request"
 	"github.com/sno6/gosane/internal/http"
@@ -11,43 +8,41 @@ import (
 	"github.com/sno6/gosane/service/auth"
 )
 
-type LoginHandler struct {
+type VerifyEmailHandler struct {
 	authService *auth.Service
 	validator   *validator.Validator
 }
 
-func NewLoginHandler(
+func NewVerifyEmailHandler(
 	authService *auth.Service,
 	validator *validator.Validator,
-) *LoginHandler {
-	return &LoginHandler{
+) *VerifyEmailHandler {
+	return &VerifyEmailHandler{
 		authService: authService,
 		validator:   validator,
 	}
 }
 
-func (*LoginHandler) Path() string {
-	return "/login"
+func (*VerifyEmailHandler) Path() string {
+	return "/verify/email"
 }
 
-func (*LoginHandler) Method() string {
+func (*VerifyEmailHandler) Method() string {
 	return http.MethodPost
 }
 
-func (h *LoginHandler) HandleFunc(c *gin.Context) {
-	var body request.LoginBody
+func (h *VerifyEmailHandler) HandleFunc(c *gin.Context) {
+	var body request.VerifyEmailBody
 	if err := h.validator.ValidateJSON(c.Request.Body, &body); err != nil {
 		c.Error(http.BadRequest).SetMeta(err)
 		return
 	}
 
-	tokens, err := h.authService.Login(c, body.Email, body.Password)
+	err := h.authService.VerifyEmail(c, body.Token)
 	if err != nil {
-		time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
-
 		c.Error(http.Unauthorized).SetMeta(err)
 		return
 	}
 
-	c.JSON(200, tokens)
+	c.JSON(200, nil)
 }

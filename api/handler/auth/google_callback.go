@@ -24,7 +24,12 @@ type GoogleCallbackHandler struct {
 	oAuthCfg    *oauth2.Config
 }
 
-func NewGoogleCallbackHandler(userService *user.Service, authService *auth.Service, appConfig config.AppConfig, oAuthCfg *oauth2.Config) *GoogleCallbackHandler {
+func NewGoogleCallbackHandler(
+	userService *user.Service,
+	authService *auth.Service,
+	appConfig config.AppConfig,
+	oAuthCfg *oauth2.Config,
+) *GoogleCallbackHandler {
 	return &GoogleCallbackHandler{
 		userService: userService,
 		authService: authService,
@@ -42,7 +47,15 @@ func (*GoogleCallbackHandler) Method() string {
 }
 
 func (gh *GoogleCallbackHandler) HandleFunc(c *gin.Context) {
-	handler := google.StateHandler(gologin.DebugOnlyCookieConfig, google.CallbackHandler(gh.oAuthCfg, gh.success(c), gh.failure(c)))
+	handler := google.StateHandler(
+		gologin.DebugOnlyCookieConfig,
+		google.CallbackHandler(
+			gh.oAuthCfg,
+			gh.success(c),
+			gh.failure(c),
+		),
+	)
+
 	handler.ServeHTTP(c.Writer, c.Request)
 }
 
@@ -83,7 +96,13 @@ func (gh *GoogleCallbackHandler) success(c *gin.Context) http.HandlerFunc {
 			return
 		}
 
-		redirectURL := fmt.Sprintf("%s?token=%s&refresh=%s", gh.appConfig.OAuthSuccessRedirect, tokens.Access, tokens.Refresh)
+		redirectURL := fmt.Sprintf(
+			"%s?token=%s&refresh=%s",
+			gh.appConfig.OAuthSuccessRedirect,
+			tokens.Access,
+			tokens.Refresh,
+		)
+
 		http.Redirect(w, r, redirectURL, 302)
 	})
 }
