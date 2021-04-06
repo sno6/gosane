@@ -69,6 +69,10 @@ git clone git@github.com:sno6/gosane.git
 
 > Note that if the above command errors you may need to give the script executive permissions by running: `chmod +x ./run.sh`
 
+### Postman
+
+You can download the exported Postman collection [`here`](postman_collection.json).
+
 ## Potential issues
 
 ### But what if I don't want social OAuth?
