@@ -112,3 +112,4 @@ Similarly, do the following:
 - Handle database migrations.
 - Transaction rollbacks on recovery state.
 - Command line tool to generate new project based on feature requirements.
+- Add an example handler to show pagination & sorting usage.

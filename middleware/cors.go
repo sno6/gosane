@@ -17,8 +17,8 @@ func Cors() gin.HandlerFunc {
 		if c.Request.Method == http.MethodOptions {
 			c.Writer.Header().Set("Vary", "origin")
 			c.Writer.Header().Set("Access-Control-Max-Age", "86400")
-
 			c.Writer.WriteHeader(204)
+
 			return
 		}
 
