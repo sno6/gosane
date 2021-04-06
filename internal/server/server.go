@@ -116,7 +116,7 @@ func initEngine(db *database.Database, cfg appCfg.AppConfig, env string) (*gin.E
 		Scopes:       []string{"profile", "email"},
 	}
 
-	// Set up engine, add custom middleware.
+	// Set up engine, add global middleware.
 	engine := gin.New()
 	engine.Use(gin.Logger())
 	engine.Use(middleware.Cors())

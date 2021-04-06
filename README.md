@@ -93,4 +93,12 @@ Similarly, do the following:
 3. `/api/register.go`    Remove the reference to Sentry from the dependencies list here.
 4. `/internal/server.go` Remove the Sentry dependency and deferred handler from here.
 
-### For any other problems feel free to create an issue and ping me @sno6.
+> For any other problems feel free to create an issue and ping me @sno6.
+
+### Future work (to be completed in the *near* future)
+
+- ~80-100% testing coverage.
+- Add missing auth related endpoints: "forgot password", "re-send verification email".
+- Handle database migrations.
+- Transaction rollbacks on recovery state.
+- Command line tool to generate new project based on feature requirements.
